@@ -1,0 +1,62 @@
+{% extends 'body.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static '../static/lib/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+          href="{% static '../static/lib/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static '../static/lib/adminlte/plugins/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static '../static/lib/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static '../static/lib/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static '../static/lib/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="card mt-3">
+        <div class="card-header ui-sortable-handle">
+            <h3 class="card-title">
+                <i class="fas fa-chart-pie mr-1"></i>
+                {{ title }}
+            </h3>
+            <div class="float-right">
+                <button type="button" id="btn_add_category" class="btn btn-primary btn-sm">Nueva Categoria</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <table class="table" id="dataTable">
+                    <thead>
+                    {% block table-columns %}
+                    {% endblock %}
+                    </thead>
+                    <tbody>
+                    {% block table-rows %}
+                    {% endblock %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    {% block javascript %}
+        <script>
+            $(function () {
+                $('#dataTable').DataTable();
+                $('#btn_add_category2').on('click', function () {
+                    $.ajax({
+                        url: '{% url 'erp:category_list' %}',
+                        type: 'POST',
+                        data: {'id': 1},
+                        dataType: 'json'
+                    }).done(function (data) {
+                    }).fail(function (err) {
+                        if (err.status === 403) {
+                            alert('Acceso prohibido')
+                        }
+                    })
+                })
+            })
+        </script>
+
+    {% endblock %}
+
+{% endblock %}

@@ -6,4 +6,4 @@ from apps.erp.models import Category
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = '__all__' #columnas del formulario
